@@ -87,6 +87,7 @@ public class Calculator {
 			} //i is the index of the last element of the number
 			right = Integer.parseInt(eqn.substring(start, i + 1));
 			i++;
+			//Switch statement for the type of operation we are performing.
 			switch (charArray[index]) {
 			case '+': result = result.add(BigInteger.valueOf(right));
 			break;
@@ -106,52 +107,74 @@ public class Calculator {
 		return result;
 	}
 	
+	/**
+	 * sumChange is a helper procedure for fewestCoins which takes two 4 element arrays
+	 *  of integers and multiplies corresponding elements and adds them to find a total.
+	 * Example:
+	 *  Given {a,b,c,d} and {u,v,x,y}, sumChange would return a*u + b*v + c*x + d*y.
+	 * 
+	 */
 	public static int sumChange(int[] coins, int[] nums) {
 
 		int sum = 0;
+		int len = coins.length();
 		;
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < len; i++) {
 			sum = sum + nums[i] * coins[i];
 		}
 		return sum;
 	}
 
-
+	/**
+	 * fewestCoins takes an array of ints as values of coins in ascending order
+	 *  and an integer value of change that needs to be distributed, and
+	 *  returns an array of the number of each coin that is the least
+	 *  total coins that need to be used.
+	 * If the integer change cannot be made as a sum of the coins given, 
+	 *  fewestCoins returns an array of zeroes.
+	 */
 	public static int[] fewestCoins(int[] coins, int change) {
 
 
-		int n = change + 1; //include zero as a row
-		int[][] table = new int[4][n];
-		int[] amount = {1, 1, 1, 1}; //Our result
-		int[] arrayRef = {0, 0, 0, 0};
-		int[] arrayCurr = {0, 0, 0, 0};
-		int[] arrayCheck = {0, 0, 0, 0};
+		int n = change + 1; //total rows of our table, including zero
+		int len = coins.length(); //number of coins there are
+		int[][] table = new int[len][n];
+		//table is a table of the best coin use for a given value between 0 and n
+		int[] amount = new int[len]; //Our result
+		int[] arrayRef = new int[len]; //an array to be used as a reference
+		int[] arrayCurr = new int[len]; //an array to equal the current row
+		int[] arrayCheck = new int[len]; //an array to posit a new current row
+		int[] arrayOnes = new int[len]; //an array for checking coins in a row
+		int jup; //used to fill an array upwards
+		int jdown; //used to fill an array downwards
+		
+		for(int o = 0; o < len; o++) {
+			arrayOnes[o] = 1;
+		} //arrayOnes is now an array of ones.
 		for(int k = 0; k < 4; k++) {
 			table[k][0] = 0;
 		} // Set the 0 change values as 0
-		int jup; //used to fill an array upwards
-		int jdown; //used to fill an array downwards
+
 		/**
-		 * j is the coin being examined
+		 * j is the index of the coin being examined
 		 * i is the value being examined
+		 * we will build the table of the best coin use
+		 * from 0 to n
 		 */
 		for(int i = 1; i < n; i++) {
-			for(int j = 0; j < 4 ; j++){
-				for(int r = 0; r < 4; r++) {
+			for(int j = 0; j < len ; j++){
+				for(int r = 0; r < len; r++) {
 					arrayCurr[r] = table[r][i];
 				} //Build an array for the current row before processing
 				if(i - coins[j] >= 0) { //ensure the reference row exists
-					for(int l = 0; l < 4; l++) {
-						arrayRef[l] = table[l][i - coins[j]];
+					for(int m = 0; m < len; m++) {
+						arrayRef[m] = table[m][i - coins[j]];
 					} //Build an array for the row coins[j] above
-					
-					// If 
 					if(i - coins[j] == sumChange(coins, arrayRef)) {
 						arrayCheck[j] = table[j][i-coins[j]] + 1;
-						//Now fill the array for values on either side
-						// of j.
+						//Now fill the array for values on either side of j
 						jup = j + 1;
-						while(jup < 4) {
+						while(jup < len) {
 							arrayCheck[jup] = table[jup][i-coins[j]];
 							jup++;
 						}
@@ -160,13 +183,17 @@ public class Calculator {
 							arrayCheck[jdown] = table[jdown][i-coins[j]];
 							jdown--;
 						}
-						if(sumChange(amount, arrayCurr) == 0) {
-							for(int l = 0; l < 4; l++) {
+						//if this row was empty don't worry about efficiency
+						if(sumChange(arrayOnes, arrayCurr) == 0) {
+							for(int l = 0; l < len; l++) {
 								table[l][i] = arrayCheck[l];
 							}
-						} else if(sumChange(amount, arrayCurr) >
-						sumChange(amount, arrayCheck)) {
-							for(int z = 0; z < 4; z++) {
+						} 
+						//check if the potential row is more efficient than
+						// the current one
+						else if(sumChange(arrayOnes, arrayCurr) >
+						sumChange(arrayOnes, arrayCheck)) {
+							for(int z = 0; z < len; z++) {
 								table[z][i] = arrayCheck[z];
 							}
 						}
@@ -175,7 +202,8 @@ public class Calculator {
 
 			}
 		}
-		for(int s = 0; s < 4; s++) {
+		//copy the row for n into its own array of ints.
+		for(int s = 0; s < len; s++) {
 			amount[s] = table[s][change];
 		}
 		return amount;
