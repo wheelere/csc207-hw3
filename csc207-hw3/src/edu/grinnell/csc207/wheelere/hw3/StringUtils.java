@@ -12,11 +12,11 @@ package edu.grinnell.csc207.wheelere.hw3;
  *        	/readings/unit-testing.html
  * 	The Java reference library for ArrayLists found online at:
  * 		http://docs.oracle.com/javase/7/docs/api/java/util/ArrayList.html
- *  A stack overflow question on ArrayLists found online at:
- *  	http://stackoverflow.com/questions/1921181
- *  		/java-arraylist-of-string-arrays
- *  I was pointed to the charArray functionality by Tiffany Nguyen.
- *  I discussed the nameGame and how to solve it with Daniel Goldstein
+ *  	A stack overflow question on ArrayLists found online at:
+ *  		http://stackoverflow.com/questions/1921181
+ *  			/java-arraylist-of-string-arrays
+ *  	I was pointed to the charArray functionality by Tiffany Nguyen.
+ *  	I discussed the nameGame and how to solve it with Daniel Goldstein
  */
 
 import java.util.ArrayList;
@@ -146,7 +146,8 @@ public class StringUtils {
 	}
 	
 	/**
-	 * nameGame takes a 
+	 * nameGame takes a name in the form of a string and returns string that is 
+	 *  a verse in the style of Shirley Ellis' "The Name Game." 
 	 */
 	public static String nameGame(String name) {
 		String nameLower = name.toLowerCase();
@@ -170,7 +171,7 @@ public class StringUtils {
 		
 		return verse;
 	}
-	
+	//The following are test cases for the procedure nameGame, which demonstrate its correctness
 	public static void main(String[] args) {
 		java.io.PrintWriter pen;
 		pen = new java.io.PrintWriter(System.out, true);
@@ -180,6 +181,8 @@ public class StringUtils {
 		pen.println(verse2);
 		String verse3 = nameGame("Charlie");
 		pen.println(verse3);
+		String verse4 = nameGame("Tyler");
+		pen.println(verse4);
 		pen.close();
 
 	}
