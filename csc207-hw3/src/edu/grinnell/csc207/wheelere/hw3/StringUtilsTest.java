@@ -34,7 +34,8 @@ public class StringUtilsTest {
 				StringUtils.splitCSV("\"a,b\",c"));
 		assertArrayEquals("include quote", new String[] { "a", "b,b\"", "c" },
 				StringUtils.splitCSV("a,\"b,b\"\"\",c"));
-		
+		assertArrayEquals("include quote as char", new String[] { "a", "b", "b\"", "c" },
+				StringUtils.splitCSV("a,b,b\"\",c"));
 	}
 	
 	@Test

@@ -12,11 +12,11 @@ package edu.grinnell.csc207.wheelere.hw3;
  *        	/readings/unit-testing.html
  * 	The Java reference library for ArrayLists found online at:
  * 		http://docs.oracle.com/javase/7/docs/api/java/util/ArrayList.html
- *  	A stack overflow question on ArrayLists found online at:
- *  		http://stackoverflow.com/questions/1921181
- *  			/java-arraylist-of-string-arrays
- *  	I was pointed to the charArray functionality by Tiffany Nguyen.
- *  	I discussed the nameGame and how to solve it with Daniel Goldstein
+ *  A stack overflow question on ArrayLists found online at:
+ *  	http://stackoverflow.com/questions/1921181
+ *  		/java-arraylist-of-string-arrays
+ *  I was pointed to the charArray and ArrayList classes by Tiffany Nguyen.
+ *  I discussed the nameGame and how to solve it with Daniel Goldstein.
  */
 
 import java.util.ArrayList;
@@ -31,6 +31,7 @@ public class StringUtils {
 	public static String[] splitAt(String str, char c) {		
 		char[] charArray = str.toCharArray();
 		String curr = "";
+		//Create a list of strings to turn into arrays
 		ArrayList<String> list = new ArrayList<String>();
 		for(int i = 0; i < str.length(); i++) {
 			if(charArray[i] == c) {
@@ -40,7 +41,8 @@ public class StringUtils {
 				curr = curr + charArray[i];
 			}
 		}
-		list.add(curr); //adds whatever is remaining
+		list.add(curr); //adds whatever is remaining at the end
+		//then convert the list of strings into an array of strings
 		String[] strArray = (String[]) list.toArray(new String[list.size()]);
 		
 		return strArray;
@@ -56,29 +58,28 @@ public class StringUtils {
 		char[] charArray = str.toCharArray();
 		String curr = "";
 		ArrayList<String> list = new ArrayList<String>();
-		
+		int num = 0; //an int switch to determine if we are in quotes
 		for(int i = 0; i < str.length(); i++) {
 			// When we reach a quotation mark:
 			// treat 2 quotation marks as one
 			// or add everything in quotes to the procedure
 			if(charArray[i] == '"') {
-				int num = 1;
+				num = 1;
 				i++;
 				//check if the next character is " too
 				if(charArray[i] == '"') {
-					curr = curr + charArray[i];
 					num = 0;
 				}
 				while(num == 1 && i < str.length()) {
 					//check if the quotes end
 					if(charArray[i] == '"') {
 						i++;
+						//if theres 2 " in a row just treat it as a char
 						if(charArray[i] == '"') {
 							curr = curr + charArray[i];
 							i++;
 						} else {
 							num = 0;
-							
 						}
 					} else {
 						curr = curr + charArray[i];
@@ -86,6 +87,7 @@ public class StringUtils {
 					}
 				}
 			}
+			// when we are outside of quotes, jsut split the string by commas
 			if(charArray[i] == ',') {
 				list.add(curr);
 				curr = "";
@@ -110,6 +112,7 @@ public class StringUtils {
 		String curr = "";
 		int i = 0;
 		while(i < str.length()) {
+			//check for a letter of leet speak and replace it
 			if(charArray[i] == '0') {
 				curr = curr + "o";
 				i++;
@@ -126,6 +129,7 @@ public class StringUtils {
 				curr = curr + "a";
 				i++;
 			} else if(charArray[i] == '|') {
+				// | can be part of b or n so check
 				if(charArray[i + 1] == '3') {
 					curr = curr + "b";
 					i+=2;
@@ -137,6 +141,7 @@ public class StringUtils {
 					i++;
 				}
 			} else {
+				//if its not a recognized char just pass it along
 				curr = curr + charArray[i];
 				i++;
 			}
@@ -151,27 +156,32 @@ public class StringUtils {
 	 */
 	public static String nameGame(String name) {
 		String nameLower = name.toLowerCase();
+		//We can check if the name starts with a vowel with fewer tests
 		char[] nameArray = nameLower.toCharArray();
-		int count = 0;
+		int index = 0; //where in the name we are
 		char check;
-		boolean consonant = true;
+		boolean consonant = true; //switch to see what type our current char is
+		//as long as our base has a consonant at the beginning, we should remove it
 		while(consonant) {
-			check = nameArray[count];
+			check = nameArray[index];
 			if(check == 'a' || check == 'e' || check == 'i' || check == 'o' ||
 					check == 'u' || check == 'y') {
 				consonant = false;
 			} else {
-				count++;
+				index++;
 			}
 		}
-		String base = nameLower.substring(count);
+		String base = nameLower.substring(index); //take the name starting at index
+		//then we create the verse
 		String verse = name + "!\n" + name + ", " + name + " bo B" + base +
 				" Bonana fanna fo F" + base + "\nFee fy mo M" + base + ", " +
 				name + "!";
 		
 		return verse;
 	}
-	//The following are test cases for the procedure nameGame, which demonstrate its correctness
+	
+	// The following are test cases for the procedure nameGame,
+	//  which demonstrate its correctness
 	public static void main(String[] args) {
 		java.io.PrintWriter pen;
 		pen = new java.io.PrintWriter(System.out, true);
@@ -184,6 +194,6 @@ public class StringUtils {
 		String verse4 = nameGame("Tyler");
 		pen.println(verse4);
 		pen.close();
-
+		//These prints output the desired verses in the console.
 	}
 }

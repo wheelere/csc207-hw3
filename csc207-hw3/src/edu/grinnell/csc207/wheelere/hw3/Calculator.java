@@ -24,13 +24,14 @@ public class Calculator {
 	 * 	and collapses the equation in the parens to a single
 	 * 	integer
 	 * It assumes parens are properly placed and paired, and
-	 * 	they are not nested.
+	 * 	they are not nested, and that the String is formatted
+	 * 	as directed in the eval0 procedure.
 	 */
 	public static String collapseParens(String eqn) {
 		char[] charArray = eqn.toCharArray();
 		int len = charArray.length;
-		BigInteger collapsed;
-		String revised = "";
+		BigInteger collapsed; //solve inside parentheses
+		String revised = ""; //String to return
 		int u; //tis will be used to index the opening paren
 		for(int i = 0; i < len; i++) {
 			if(charArray[i] == '(') {
@@ -39,6 +40,7 @@ public class Calculator {
 				while(charArray[i] != ')') {
 					i++;
 				} //i should now be the closing paren
+				//just calculate this simple eqn
 				collapsed = eval0(eqn.substring(u, i));
 				revised = revised + collapsed.toString();
 			} else {
@@ -117,7 +119,7 @@ public class Calculator {
 	public static int sumChange(int[] coins, int[] nums) {
 
 		int sum = 0;
-		int len = coins.length();
+		int len = coins.length;
 		;
 		for(int i = 0; i < len; i++) {
 			sum = sum + nums[i] * coins[i];
@@ -134,10 +136,8 @@ public class Calculator {
 	 *  fewestCoins returns an array of zeroes.
 	 */
 	public static int[] fewestCoins(int[] coins, int change) {
-
-
 		int n = change + 1; //total rows of our table, including zero
-		int len = coins.length(); //number of coins there are
+		int len = coins.length; //number of coins there are
 		int[][] table = new int[len][n];
 		//table is a table of the best coin use for a given value between 0 and n
 		int[] amount = new int[len]; //Our result
@@ -170,6 +170,7 @@ public class Calculator {
 					for(int m = 0; m < len; m++) {
 						arrayRef[m] = table[m][i - coins[j]];
 					} //Build an array for the row coins[j] above
+					//check if the reference row is proper
 					if(i - coins[j] == sumChange(coins, arrayRef)) {
 						arrayCheck[j] = table[j][i-coins[j]] + 1;
 						//Now fill the array for values on either side of j

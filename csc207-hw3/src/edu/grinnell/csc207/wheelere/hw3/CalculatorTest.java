@@ -11,15 +11,15 @@ public class CalculatorTest {
 
 	@Test
 	public void test() {
-		assertEquals(BigInteger.valueOf(0), Calculator.eval0("0"));
-		assertEquals(BigInteger.valueOf(2), Calculator.eval0("1 + 1"));
-		assertEquals(BigInteger.valueOf(4), Calculator.eval0("1 + 2 + 1"));
-		assertEquals(BigInteger.valueOf(9), Calculator.eval0("1 + 2 * 3"));
-		assertEquals(BigInteger.valueOf(36), Calculator.eval0("30 * 2 - 54 ^ 2"));
-		assertEquals(BigInteger.valueOf(0), Calculator.eval0("300 - 299 - 1"));
-		assertEquals(BigInteger.valueOf(6), Calculator.eval0("5 - -1"));
-		assertEquals(BigInteger.valueOf(-1), Calculator.eval0("5 - (7 - 1)"));
-		assertEquals(BigInteger.valueOf(115), Calculator.eval0("5 * (18 + 5)"));
+		assertEquals("zero test", BigInteger.valueOf(0), Calculator.eval0("0"));
+		assertEquals("base test", BigInteger.valueOf(2), Calculator.eval0("1 + 1"));
+		assertEquals("triple test", BigInteger.valueOf(4), Calculator.eval0("1 + 2 + 1"));
+		assertEquals("ascend test", BigInteger.valueOf(9), Calculator.eval0("1 + 2 * 3"));
+		assertEquals("interaction test", BigInteger.valueOf(36), Calculator.eval0("(30 * 2 - 54) ^ 2"));
+		assertEquals("paren test 1", BigInteger.valueOf(2), Calculator.eval0("300 - (299 - 1)"));
+		assertEquals("negatives test", BigInteger.valueOf(6), Calculator.eval0("5 - -1"));
+		assertEquals("paren test 2", BigInteger.valueOf(-1), Calculator.eval0("5 - (7 - 1)"));
+		assertEquals("adv paren test", BigInteger.valueOf(115), Calculator.eval0("5 * (18 + 5)"));
 	}
 
 	@Test
