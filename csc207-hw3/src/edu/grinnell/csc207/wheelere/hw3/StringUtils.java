@@ -15,6 +15,7 @@ package edu.grinnell.csc207.wheelere.hw3;
  *  A stack overflow question on ArrayLists found online at:
  *  	http://stackoverflow.com/questions/1921181
  *  		/java-arraylist-of-string-arrays
+ *  I was pointed to the charArray functionality by Tiffany Nguyen.
  *  I discussed the nameGame and how to solve it with Daniel Goldstein
  */
 
@@ -22,6 +23,11 @@ import java.util.ArrayList;
 
 public class StringUtils {
 
+       /**
+	 *  splitAt takes a string and a character and splits the string into
+         *   an array of strings, excluding all instances of the character c,
+ 	 *   instead separating the original string at those locations.
+ 	 */
 	public static String[] splitAt(String str, char c) {		
 		char[] charArray = str.toCharArray();
 		String curr = "";
@@ -40,6 +46,12 @@ public class StringUtils {
 		return strArray;
 	}
 	
+	/**
+	 *  splitCSV takes a string and separates it at commas, unless the comma is 
+	 *   contained within quotes. Two quotation marks in a row is also read as 
+	 *   just a quotation mark, and invokes no special conditions.
+	 *  splitCSV returns an array of the resulting strings separated this way.
+	 */
 	public static String[] splitCSV(String str) {
 		char[] charArray = str.toCharArray();
 		String curr = "";
@@ -88,6 +100,11 @@ public class StringUtils {
 		
 	}
 	
+	/**
+	 * deLeet takes a string and translates any instances of "leetspeak" within it
+	 *  to the english equivalent, returning the translation. All instances of "leet"
+	 *  character equivalents of o, t, b, n, l, e, and a are modified.
+	 */
 	public static String deLeet(String str) {
 		char[] charArray = str.toCharArray();
 		String curr = "";
@@ -128,6 +145,9 @@ public class StringUtils {
 		return curr;
 	}
 	
+	/**
+	 * nameGame takes a 
+	 */
 	public static String nameGame(String name) {
 		String nameLower = name.toLowerCase();
 		char[] nameArray = nameLower.toCharArray();
